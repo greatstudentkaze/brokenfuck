@@ -11,5 +11,6 @@ const validations = [
 ];
 
 router.post('/registration', ...validations, authController.registerUser);
+router.post('/login', authController.login);
 
 export default router;

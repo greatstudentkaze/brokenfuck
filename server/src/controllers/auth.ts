@@ -78,6 +78,20 @@ class AuthController {
       res.status(500).send({ message: 'Server error' });
     }
   }
+
+  async authorizeUser (req: Request, res: Response) {
+    try {
+      const user = await UserModel.findOne({ _id: req.user.id });
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      return res.json(getTokenAndUserData(user));
+    } catch (err) {
+      console.error(err);
+      res.status(500).send({ message: 'Server error' });
+    }
+  }
 }
 
 export default new AuthController();

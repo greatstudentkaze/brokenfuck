@@ -4,13 +4,15 @@ import jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
 
 import UserModel, { IUser } from '../models/user.js';
+import RoleModel from '../models/role.js';
 
-interface IUserData {
+export interface IUserData {
   id: IUser['_id'],
   email: IUser['email'],
   avatar: IUser['avatar'],
   name: IUser['name'],
   accounts: IUser['accounts'],
+  roles: IUser['roles'],
 }
 
 export const getUserData = (user: IUser): IUserData => ({
@@ -19,6 +21,7 @@ export const getUserData = (user: IUser): IUserData => ({
   avatar: user.avatar,
   name: user.name,
   accounts: user.accounts,
+  roles: user.roles,
 });
 
 const getTokenAndUserData = (user: IUser) => {
@@ -27,7 +30,7 @@ const getTokenAndUserData = (user: IUser) => {
     throw new Error();
   }
 
-  const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, { expiresIn: '1h' });
+  const token = jwt.sign({ id: user._id, roles: user.roles }, process.env.SECRET_KEY, { expiresIn: '1h' });
   return {
     token,
     user: getUserData(user),
@@ -49,7 +52,13 @@ class AuthController {
       }
 
       const hashPassword = bcrypt.hashSync(password, 7);
-      const user = new UserModel({ email, password: hashPassword });
+      const userRole = await RoleModel.findOne({ value: 'USER' });
+      if (!userRole) {
+        console.error('Role not found');
+        return res.status(500).send({ message: 'Server error' });
+      }
+
+      const user = new UserModel({ email, password: hashPassword, roles: [userRole.value] });
       await user.save();
 
       return res.status(201).json({ message: 'User was created' });
@@ -59,7 +68,7 @@ class AuthController {
     }
   }
 
-  async login (req: Request, res: Response) {
+  async login (req: Request, res: Response)  {
     try {
       const { email, password } = req.body;
       const user = await UserModel.findOne({ email });

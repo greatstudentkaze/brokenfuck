@@ -2,6 +2,7 @@ import mongoose, { Document } from 'mongoose';
 const { ObjectId } = mongoose.Schema.Types;
 
 import { IAccount } from './account';
+import { IRole } from './role';
 
 export interface IUser extends Document {
   name?: string,
@@ -9,6 +10,7 @@ export interface IUser extends Document {
   password: string,
   avatar: string | null,
   accounts: IAccount['_id'][],
+  roles: IRole['value'][],
 }
 
 const schema = new mongoose.Schema({
@@ -16,7 +18,8 @@ const schema = new mongoose.Schema({
   password: { type: String, required: true },
   avatar: { type: String, default: null },
   name: { type: String },
-  accounts: [{ type: ObjectId, ref: 'Account' }]
+  accounts: [{ type: ObjectId, ref: 'Account' }],
+  roles: [{ type: String, ref: 'Role' }],
 });
 
 export default mongoose.model<IUser>('User', schema);

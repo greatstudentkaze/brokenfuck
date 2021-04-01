@@ -5,6 +5,7 @@ import 'dotenv/config.js';
 import cors from './middlewares/cors.js';
 import authRouter from './routers/auth.js';
 import missionRouter from './routers/mission.js';
+import accountRouter from './routers/account.js';
 
 const PORT = process.env.PORT;
 
@@ -13,6 +14,7 @@ app.use(cors);
 app.use(express.json());
 app.use('/api/auth', authRouter);
 app.use('/api/missions', missionRouter);
+app.use('/api/accounts', accountRouter);
 
 (async () => {
   try {

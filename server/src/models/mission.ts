@@ -1,9 +1,12 @@
 import mongoose, { Document } from 'mongoose';
 
+type MissionType = 'retakes' | 'guardian' | 'casual' | 'competitive' | 'premier' |
+  'dangerzone' | 'coop' | 'wingman' | 'demolition' | 'deathmatch' | 'armsrace';
+
 export interface IMission extends Document {
   week: number,
   stars: number,
-  type: string,
+  type: MissionType,
   title: string,
   description: string,
 }

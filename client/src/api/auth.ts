@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 
 import { API_URL, APIRoute } from '../const';
 
@@ -20,11 +20,20 @@ export namespace ResponseType {
 }
 
 class AuthAPI {
+  private instance: AxiosInstance;
+
+  constructor () {
+    this.instance = axios.create({
+      baseURL: `${API_URL}${APIRoute.AUTH}`,
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }
+    });
+  }
+
   async auth (): Promise<TokenAndUserData> {
     try {
-      const response = await axios.get<ResponseType.Login>(`${API_URL}${APIRoute.AUTH}`, {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-      });
+      const response = await this.instance.get<ResponseType.Login>('');
       return response.data;
     } catch (err) {
       throw new Error(err.response.data.message);
@@ -33,7 +42,7 @@ class AuthAPI {
 
   async login (email: IUser['email'], password: IUser['password']): Promise<TokenAndUserData> {
     try {
-      const response = await axios.post<ResponseType.Login>(`${API_URL}${APIRoute.LOGIN}`, { email, password });
+      const response = await this.instance.post<ResponseType.Login>(APIRoute.LOGIN, { email, password });
       return response.data;
     } catch (err) {
       throw new Error(err.response.data.message);
@@ -42,7 +51,7 @@ class AuthAPI {
 
   async register (email: IUser['email'], password: IUser['password']): Promise<Message> {
     try {
-      const response = await axios.post<ResponseType.Register>(`${API_URL}${APIRoute.REGISTRATION}`, { email, password });
+      const response = await this.instance.post<ResponseType.Register>(APIRoute.REGISTRATION, { email, password });
       return response.data;
     } catch (err) {
       throw new Error(err.response.data.message);

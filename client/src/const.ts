@@ -5,6 +5,8 @@ export const AppRoute = {
   ROOT: '/',
   LOGIN: '/login',
   REGISTRATION: '/registration',
+  PROFILE: '/profile',
+  ACCOUNTS: '/accounts',
 } as const;
 
 export const APIRoute = {

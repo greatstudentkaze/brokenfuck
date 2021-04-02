@@ -9,6 +9,8 @@ import { IUserData } from '../interfaces';
 
 export namespace IAction {
   export interface SetUser { type: typeof ActionType.SET_USER, payload: IUserData }
+
+  export interface Logout { type: typeof ActionType.LOGOUT }
 }
 
 export namespace ThunkActionType {

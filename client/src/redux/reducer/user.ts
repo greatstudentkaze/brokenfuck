@@ -1,4 +1,4 @@
-import { SET_USER } from '../actions/types/user';
+import * as ActionType from '../actions/types/user';
 import { ActionsType } from '../actions/user';
 
 import { IUserData } from '../../interfaces';
@@ -14,11 +14,17 @@ type State = typeof initialState;
 
 const userReducer = (state = initialState, action: ActionsType): State => {
   switch (action.type) {
-    case SET_USER:
+    case ActionType.SET_USER:
       return {
         ...state,
         currentUser: action.payload,
         isAuthorized: true
+      }
+    case ActionType.LOGOUT:
+      return {
+        ...state,
+        currentUser: null,
+        isAuthorized: false
       }
     default:
       return state;

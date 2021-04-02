@@ -7,12 +7,20 @@ import { redirectToRoute } from './app';
 import { IUser, IUserData } from '../../interfaces';
 import { IAction, ThunkActionType } from '../../namespaces/user';
 
-export type ActionsType = IAction.SetUser;
+export type ActionsType = IAction.SetUser | IAction.Logout;
 
 export const setUser = (user: IUserData): IAction.SetUser => ({
   type: ActionType.SET_USER,
   payload: user,
 });
+
+export const logout = () => {
+  localStorage.removeItem('token');
+
+  return {
+    type: ActionType.LOGOUT,
+  }
+};
 
 export const login = (email: IUser['email'], password: IUser['password']): ThunkActionType.withAppActions =>
   async (dispatch) => {

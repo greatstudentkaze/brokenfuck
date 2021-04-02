@@ -11,6 +11,7 @@ export const AppRoute = {
 
 export const APIRoute = {
   AUTH: 'auth/',
+  ACCOUNTS: 'accounts/',
   LOGIN: 'login/',
   REGISTRATION: 'registration/',
 }

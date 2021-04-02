@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
 
 import { AppRoute } from '../../const';
+import { auth } from '../../redux/actions/user';
 
 import PrivateRoute from '../private-route';
 import Header from '../header';
@@ -15,6 +17,12 @@ const Home = () => {
 };
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(auth());
+  }, []);
+
   return (
     <>
       <Header />

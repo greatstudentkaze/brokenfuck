@@ -22,6 +22,19 @@ export const logout = () => {
   }
 };
 
+export const auth = (): ThunkActionType.withAppActions =>
+  async (dispatch) => {
+    try {
+      const { token, user } = await authAPI.auth();
+
+      localStorage.setItem('token', token);
+      dispatch(setUser(user));
+      dispatch(redirectToRoute(AppRoute.ROOT));
+    } catch (err) {
+      localStorage.removeItem('token');
+    }
+  };
+
 export const login = (email: IUser['email'], password: IUser['password']): ThunkActionType.withAppActions =>
   async (dispatch) => {
     try {

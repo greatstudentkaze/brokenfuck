@@ -5,7 +5,7 @@ import { IProgress } from './progress';
 import { IUser } from './user';
 
 export interface IAccount extends Document {
-  login?: string,
+  login: string,
   link?: string,
   user: IUser['_id'],
   progress?: IProgress['_id'],
@@ -17,7 +17,7 @@ const schema = new mongoose.Schema({
   progress: { type: ObjectId, ref: 'Progress' },
   user: { type: ObjectId, ref: 'User' },
   avatar: { type: String, default: null },
-  login: { type: String },
+  login: { type: String, unique: true, required: true },
   link: { type: String },
   prime: { type: Boolean },
 });

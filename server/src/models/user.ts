@@ -8,7 +8,7 @@ export interface IUser extends Document {
   name?: string,
   email: string,
   password: string,
-  avatar: string | null,
+  avatar?: string,
   accounts: IAccount['_id'][],
   roles: IRole['value'][],
 }
@@ -16,7 +16,7 @@ export interface IUser extends Document {
 const schema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  avatar: { type: String, default: null },
+  avatar: { type: String },
   name: { type: String },
   accounts: [{ type: ObjectId, ref: 'Account' }],
   roles: [{ type: String, ref: 'Role' }],

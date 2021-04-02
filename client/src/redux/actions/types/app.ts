@@ -1,0 +1,1 @@
+export const REDIRECT_TO_ROUTE = 'APP:REDIRECT_TO_ROUTE';

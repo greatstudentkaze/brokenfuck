@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
-import { getAllAccounts } from '../../redux/actions/accounts';
-import { selectAccounts } from '../../redux/reducers/accounts';
+import { getAllAccounts } from '../../store/actions/accounts';
+import { selectAccounts } from '../../store/reducers/accounts';
 
 const AccountsScreen = () => {
   const dispatch = useAppDispatch();

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
-import { RootState } from '../../redux/store';
+import { RootState } from '../../store';
 
 import { useAppSelector } from '../../hooks/redux';
 import { AppRoute } from '../../const';

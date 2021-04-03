@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 
 import { useAppDispatch } from '../../hooks/redux';
 import { AppRoute } from '../../const';
-import { auth } from '../../redux/actions/user';
+import { auth } from '../../store/actions/user';
 
 import PrivateRoute from '../private-route';
 import Header from '../header';

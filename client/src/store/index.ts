@@ -8,7 +8,7 @@ import app from './reducers/app';
 import accounts from './reducers/accounts';
 import user from './reducers/user';
 
-const store = configureStore({
+const index = configureStore({
   reducer: {
     app,
     accounts,
@@ -18,11 +18,11 @@ const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof index.getState>;
+export type AppDispatch = typeof index.dispatch;
 export type AppThunk<
   ActionType extends Action = AnyAction,
   ReturnType = void
   > = ThunkAction<ReturnType, RootState, unknown, ActionType>;
 
-export default store;
+export default index;

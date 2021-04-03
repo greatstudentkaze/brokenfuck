@@ -6,7 +6,7 @@ import authAPI from '../../api/auth';
 import * as ActionType from './types/user';
 import { redirectToRoute } from './app';
 
-import { AppThunk } from '../store';
+import { AppThunk } from '../index';
 import { IUser } from '../../interfaces';
 import { CurrentUser } from '../reducers/user';
 

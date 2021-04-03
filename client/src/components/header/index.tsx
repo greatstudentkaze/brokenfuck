@@ -2,9 +2,9 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { selectUser, selectIsAuthorized } from '../../redux/reducers/user';
+import { selectUser, selectIsAuthorized } from '../../store/reducers/user';
 import { AppRoute } from '../../const';
-import { logout } from '../../redux/actions/user';
+import { logout } from '../../store/actions/user';
 
 const Header = () => {
   const currentUser = useAppSelector(selectUser);

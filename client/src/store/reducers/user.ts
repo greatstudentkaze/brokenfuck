@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { RootState } from '../store';
+import { RootState } from '../index';
 import { logout, setUser } from '../actions/user';
 
 import { IUserData } from '../../interfaces';

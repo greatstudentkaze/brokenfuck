@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { RootState } from '../store';
+import { RootState } from '../index';
 import { Accounts } from '../../types';
 import { getAllAccounts } from '../actions/accounts';
 

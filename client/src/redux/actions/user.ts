@@ -1,28 +1,20 @@
+import { createAction } from '@reduxjs/toolkit';
+
 import { AppRoute } from '../../const';
 import authAPI from '../../api/auth';
 
 import * as ActionType from './types/user';
 import { redirectToRoute } from './app';
 
-import { IUser, IUserData } from '../../interfaces';
-import { IAction, ThunkActionType } from '../../namespaces/user';
+import { AppThunk } from '../store';
+import { IUser } from '../../interfaces';
+import { CurrentUser } from '../reducers/user';
 
-export type ActionsType = IAction.SetUser | IAction.Logout;
+export const setUser = createAction<CurrentUser>(ActionType.SET_USER);
 
-export const setUser = (user: IUserData): IAction.SetUser => ({
-  type: ActionType.SET_USER,
-  payload: user,
-});
+export const logout = createAction(ActionType.LOGOUT);
 
-export const logout = () => {
-  localStorage.removeItem('token');
-
-  return {
-    type: ActionType.LOGOUT,
-  }
-};
-
-export const auth = (): ThunkActionType.withAppActions =>
+export const auth = (): AppThunk =>
   async (dispatch) => {
     try {
       const { token, user } = await authAPI.auth();
@@ -35,7 +27,7 @@ export const auth = (): ThunkActionType.withAppActions =>
     }
   };
 
-export const login = (email: IUser['email'], password: IUser['password']): ThunkActionType.withAppActions =>
+export const login = (email: IUser['email'], password: IUser['password']): AppThunk =>
   async (dispatch) => {
     try {
       const { token, user } = await authAPI.login(email, password);
@@ -48,7 +40,7 @@ export const login = (email: IUser['email'], password: IUser['password']): Thunk
     }
   };
 
-export const register = (email: IUser['email'], password: IUser['password']): ThunkActionType.withAppActions =>
+export const register = (email: IUser['email'], password: IUser['password']): AppThunk =>
   async (dispatch) => {
     try {
       const { message } = await authAPI.register(email, password);

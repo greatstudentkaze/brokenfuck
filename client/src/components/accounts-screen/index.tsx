@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
-import { RootState } from '../../redux/store';
 import { getAllAccounts } from '../../redux/actions/accounts';
+import { selectAccounts } from '../../redux/reducers/accounts';
 
 const AccountsScreen = () => {
-  const dispatch = useDispatch();
-  const accounts = useSelector(({ accounts }: RootState) => accounts.items);
+  const dispatch = useAppDispatch();
+  const accounts = useAppSelector(selectAccounts);
 
   useEffect(() => {
     dispatch(getAllAccounts());

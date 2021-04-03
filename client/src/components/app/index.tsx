@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
 
+import { useAppDispatch } from '../../hooks/redux';
 import { AppRoute } from '../../const';
 import { auth } from '../../redux/actions/user';
 
@@ -20,7 +20,7 @@ const Home = () => {
 };
 
 const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(auth());

@@ -2,7 +2,7 @@ import axios, { AxiosInstance } from 'axios';
 
 import { API_URL, APIRoute } from '../const';
 
-import { Accounts } from '../redux/reducer/accounts';
+import { Accounts } from '../types';
 
 export namespace ResponseType {
   export type GetAllAccounts = Accounts;

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
+import { useAppSelector } from '../../hooks/redux';
 import { AppRoute } from '../../const';
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 } & RouteProps;
 
 const PrivateRoute = ({ component: Component, exact, path, ...rest }: Props) => {
-  const isAuthorized = useSelector(({ user }: RootState) => user.isAuthorized);
+  const isAuthorized = useAppSelector(({ user }: RootState) => user.isAuthorized);
 
   return (
     <Route

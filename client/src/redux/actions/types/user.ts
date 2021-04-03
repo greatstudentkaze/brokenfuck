@@ -1,2 +1,2 @@
-export const SET_USER = 'USER:SET_USER';
-export const LOGOUT = 'USER:LOGOUT';
+export const SET_USER = 'user/setUser';
+export const LOGOUT = 'user/logout';

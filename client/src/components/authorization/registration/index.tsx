@@ -1,7 +1,7 @@
 import React, { FormEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { useAppDispatch } from '../../../hooks/redux';
 import { register } from '../../../redux/actions/user';
 
 import Input from '../../input';
@@ -9,7 +9,7 @@ import Input from '../../input';
 const Registration = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();

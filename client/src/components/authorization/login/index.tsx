@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
+import { useAppDispatch } from '../../../hooks/redux';
 import { login } from '../../../redux/actions/user';
 
 import Input from '../../input';
@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();

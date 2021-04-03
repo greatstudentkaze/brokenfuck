@@ -1,15 +1,15 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { selectUser, selectIsAuthorized } from '../../redux/reducers/user';
 import { AppRoute } from '../../const';
-import { RootState } from '../../redux/store';
 import { logout } from '../../redux/actions/user';
 
 const Header = () => {
-  const currentUser = useSelector(({ user }: RootState) => user.currentUser);
-  const isAuthorized = useSelector(({ user }: RootState) => user.isAuthorized);
-  const dispatch = useDispatch();
+  const currentUser = useAppSelector(selectUser);
+  const isAuthorized = useAppSelector(selectIsAuthorized);
+  const dispatch = useAppDispatch();
 
   const handleLogoutButtonClick = () => {
     dispatch(logout());

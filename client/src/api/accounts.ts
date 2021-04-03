@@ -14,10 +14,17 @@ class AccountsAPI {
   constructor () {
     this.instance = axios.create({
       baseURL: `${API_URL}${APIRoute.ACCOUNTS}`,
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      }
     });
+    this.instance.interceptors.request.use(
+      (config) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+          config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
   }
 
   async getAllAccounts (): Promise<Accounts> {

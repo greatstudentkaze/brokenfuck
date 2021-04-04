@@ -18,3 +18,8 @@ export const APIRoute = {
   CREATE_ACCOUNT: 'create/',
   PROGRESS: 'progress/',
 }
+
+export const ProgressUpdateType = {
+  UPGRADE: 'UPGRADE',
+  DEGRAGE: 'DEGRADE',
+} as const;

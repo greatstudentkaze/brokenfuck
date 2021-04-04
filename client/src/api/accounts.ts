@@ -1,15 +1,18 @@
 import axios, { AxiosInstance } from 'axios';
 
-import { API_URL, APIRoute } from '../const';
+import { API_URL, APIRoute, ProgressUpdateType } from '../const';
 
-import { Accounts } from '../types';
-import { IAccount, IProgress } from '../interfaces';
+import { Accounts, Message } from '../types';
+import { IAccount, IMission, IProgress } from '../interfaces';
 
 export namespace ResponseType {
   export type GetAllAccounts = Accounts;
   export type CreateAccount = IAccount;
   export type GetMissionsProgress = IProgress;
+  export type UpdateAccountProgress = Message;
 }
+
+type UpdateType = typeof ProgressUpdateType[keyof typeof ProgressUpdateType];
 
 class AccountsAPI {
   private instance: AxiosInstance;
@@ -53,6 +56,15 @@ class AccountsAPI {
   async getMissionsProgress (login: IAccount['login']): Promise<IProgress> {
     try {
       const response = await this.instance.get<ResponseType.GetMissionsProgress>(`${login}/${APIRoute.PROGRESS}`);
+      return response.data;
+    } catch (err) {
+      throw new Error(err.response.data.message);
+    }
+  }
+
+  async updateAccountProgress (login: IAccount['login'], missions: IMission['id'][], stars: IProgress['stars'], wastedTime: IProgress['wastedTime'], updateType: UpdateType): Promise<Message> {
+    try {
+      const response = await this.instance.post<ResponseType.UpdateAccountProgress>(`${login}/${APIRoute.PROGRESS}`, { missions, stars, wastedTime, updateType });
       return response.data;
     } catch (err) {
       throw new Error(err.response.data.message);

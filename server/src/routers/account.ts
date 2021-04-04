@@ -8,6 +8,7 @@ const router = Router();
 
 router.post('/create', authMiddleware, roleMiddleware(['USER']), controller.createAccount);
 router.get('/:login/progress', roleMiddleware(['USER']), controller.getMissionsProgress);
+router.post('/:login/progress', roleMiddleware(['USER']), controller.updateAccountProgress);
 router.get('/', authMiddleware, roleMiddleware(['USER']), controller.getUserAccounts);
 
 export default router;

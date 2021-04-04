@@ -9,3 +9,7 @@ export type MissionType = 'retakes' | 'guardian' | 'casual' | 'competitive' | 'p
   'dangerzone' | 'coop' | 'wingman' | 'demolition' | 'deathmatch' | 'armsrace';
 
 export type Accounts = Draft<IAccount>[] | null;
+
+export type Message = {
+  message: string;
+};

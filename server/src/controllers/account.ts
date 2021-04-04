@@ -6,6 +6,11 @@ import ProgressModel from '../models/progress.js';
 import UserModel from '../models/user.js';
 import MissionModel from '../models/mission.js';
 
+const ProgressUpdateType = {
+  UPGRADE: 'UPGRADE',
+  DEGRAGE: 'DEGRADE',
+};
+
 class AccountController {
   async createAccount (req: Request, res: Response) {
     try {
@@ -102,6 +107,43 @@ class AccountController {
     } catch (err) {
       console.error(err);
       return res.status(500).json({ message: 'Server error' });
+    }
+  }
+
+  async updateAccountProgress (req: Request, res: Response) {
+    try {
+      const { login } = req.params;
+      const { missions, stars, wastedTime, updateType } = req.body;
+      if (updateType !== ProgressUpdateType.UPGRADE && updateType !== ProgressUpdateType.DEGRAGE) {
+        return res.status(400).json({ message: `Bad update type` });
+      }
+
+      const progress = await ProgressModel.findOne({ account: login });
+      if (!progress) {
+        return res.status(404).json({ message: `Account ${login} not found` });
+      }
+
+      switch (updateType) {
+        case ProgressUpdateType.UPGRADE:
+          progress.completedMissions = progress.completedMissions.concat(missions);
+          progress.stars += stars;
+          progress.wastedTime += wastedTime;
+          break;
+        case ProgressUpdateType.DEGRAGE:
+          progress.completedMissions = progress.completedMissions.filter(mission => !missions.includes(mission.toString()));
+          progress.stars -= stars;
+          progress.wastedTime -= wastedTime;
+          break;
+        default:
+          break;
+      }
+
+      await progress.save();
+
+      res.json({ message: 'Account progress updated' });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'Progress update error' });
     }
   }
 }

@@ -1,8 +1,13 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
+
+import { useAppDispatch } from '../../../hooks/redux';
+import { toggleWeekCompletion } from '../../../store/actions/progress';
+
+import Mission from './mission';
 
 import { IMission, IProgress } from '../../../interfaces';
 
-import Mission from './mission';
 
 type Props = {
   week: IMission['week'],
@@ -12,13 +17,25 @@ type Props = {
   completed: boolean,
 };
 
+type Params = {
+  login: string,
+}
+
 const MissionsWeek = ({ week, missions, maxStars, stars, completed }: Props) => {
+  const dispatch = useAppDispatch();
+  const { login } = useParams<Params>();
+
+  const handleCompletionButtonClick = () => {
+    dispatch(toggleWeekCompletion({ login, week, isCompleted: !completed }));
+  };
+
   return (
     <div>
       <header>
-        <h3>Неделя {week}</h3>
+        <h3>Неделя {week} {completed && '✔️'}</h3>
         <p>⭐ {stars}/{maxStars}</p>
       </header>
+      <button type="button" onClick={handleCompletionButtonClick}>Отметить {completed ? 'невыполненной' : 'выполненной'}</button>
       <ul>
         {
           missions.map(mission => <li key={mission.id}>

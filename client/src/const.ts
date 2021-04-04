@@ -14,4 +14,5 @@ export const APIRoute = {
   ACCOUNTS: 'accounts/',
   LOGIN: 'login/',
   REGISTRATION: 'registration/',
+  CREATE_ACCOUNT: 'create/',
 }

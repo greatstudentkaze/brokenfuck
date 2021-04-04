@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 
 import { RootState } from '../index';
 import { Accounts } from '../../types';
-import { getAllAccounts } from '../actions/accounts';
+import { createAccount, getAllAccounts } from '../actions/accounts';
 
 interface State {
   items: Accounts,
@@ -24,6 +24,14 @@ export const accounts = createReducer(
     builder.addCase(getAllAccounts.fulfilled, (state, action) => {
       state.items = action.payload;
       state.isAccountsFetched = true;
+    });
+
+    builder.addCase(createAccount.fulfilled, (state, action) => {
+      if (state.items) {
+        state.items.push(action.payload);
+      } else {
+        state.items = [action.payload];
+      }
     });
   },
 );

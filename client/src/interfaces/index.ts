@@ -23,8 +23,8 @@ export interface IProgress {
   _id: string,
 }
 
-export interface IAccount extends Document {
-  login?: string,
+export interface IAccount {
+  login: string,
   link?: string,
   user: IUser['_id'],
   progress?: IProgress['_id'],

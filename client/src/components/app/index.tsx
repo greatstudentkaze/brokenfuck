@@ -10,6 +10,7 @@ import Header from '../header';
 import Login from '../authorization/login';
 import Registration from '../authorization/registration';
 import AccountsScreen from '../accounts-screen';
+import AccountScreen from '../account-screen';
 
 const Home = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
       <Switch>
         <PrivateRoute exact path={AppRoute.ROOT} component={Home} />
         <PrivateRoute exact path={AppRoute.ACCOUNTS} component={AccountsScreen} />
+        <PrivateRoute exact path={AppRoute.ACCOUNT} component={AccountScreen} />
         <Route exact path={AppRoute.LOGIN} component={Login} />
         <Route exact path={AppRoute.REGISTRATION} component={Registration} />
       </Switch>

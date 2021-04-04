@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { Link } from 'react-router-dom';
+
+import { AppRoute } from '../../const';
 
 import { getAllAccounts } from '../../store/actions/accounts';
 import { selectAccounts } from '../../store/reducers/accounts';
@@ -26,8 +29,9 @@ const AccountsScreen = () => {
         <ul>
           {
             accounts && accounts.map(account => <li key={account._id}>
-              {account.login}
-              {account.prime && 'есть прайм'}
+              <Link to={`${AppRoute.ACCOUNTS}/${account.login}`}>
+                {account.login} [{account.prime && 'есть прайм'}]
+              </Link>
             </li>)
           }
         </ul>

@@ -6,12 +6,14 @@ import redirect from './middlewares/redirect';
 
 import app from './reducers/app';
 import accounts from './reducers/accounts';
+import progress from './slices/progress';
 import user from './reducers/user';
 
 const index = configureStore({
   reducer: {
     app,
     accounts,
+    progress,
     user,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(redirect),

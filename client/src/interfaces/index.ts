@@ -4,30 +4,34 @@ export interface IRole {
   value: 'USER' | 'ADMIN',
 }
 
+export interface IMissionsWeek {
+  completed: boolean,
+  maxStars: IProgress['stars'],
+  missions: IMission[],
+  stars: IProgress['stars'],
+  week: IMission['week'],
+}
+
 export interface IMission {
-  week: number,
-  stars: number,
-  type: MissionType,
-  title: string,
+  completed: boolean,
   description: string,
-  __v: number,
-  _id: string,
+  id: string,
+  stars: number,
+  title: string,
+  type: MissionType,
+  week: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16,
 }
 
 export interface IProgress {
-  account: IAccount['_id'],
+  missionsWeeks: IMissionsWeek[],
   stars: number,
-  completedMissions: IMission['_id'][],
   wastedTime: number,
-  __v: number,
-  _id: string,
 }
 
 export interface IAccount {
   login: string,
   link?: string,
   user: IUser['_id'],
-  progress?: IProgress['_id'],
   avatar: string | null,
   prime: boolean,
   __v: number,

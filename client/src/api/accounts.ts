@@ -3,11 +3,12 @@ import axios, { AxiosInstance } from 'axios';
 import { API_URL, APIRoute } from '../const';
 
 import { Accounts } from '../types';
-import { IAccount } from '../interfaces';
+import { IAccount, IProgress } from '../interfaces';
 
 export namespace ResponseType {
   export type GetAllAccounts = Accounts;
   export type CreateAccount = IAccount;
+  export type GetMissionsProgress = IProgress;
 }
 
 class AccountsAPI {
@@ -43,6 +44,15 @@ class AccountsAPI {
       const response = await this.instance.post<ResponseType.CreateAccount>(APIRoute.CREATE_ACCOUNT, {
         login, prime, link, avatar
       });
+      return response.data;
+    } catch (err) {
+      throw new Error(err.response.data.message);
+    }
+  }
+
+  async getMissionsProgress (login: IAccount['login']): Promise<IProgress> {
+    try {
+      const response = await this.instance.get<ResponseType.GetMissionsProgress>(`${login}/${APIRoute.PROGRESS}`);
       return response.data;
     } catch (err) {
       throw new Error(err.response.data.message);

@@ -7,6 +7,7 @@ export const AppRoute = {
   REGISTRATION: '/registration',
   PROFILE: '/profile',
   ACCOUNTS: '/accounts',
+  ACCOUNT: '/accounts/:login',
 } as const;
 
 export const APIRoute = {
@@ -15,4 +16,5 @@ export const APIRoute = {
   LOGIN: 'login/',
   REGISTRATION: 'registration/',
   CREATE_ACCOUNT: 'create/',
+  PROGRESS: 'progress/',
 }

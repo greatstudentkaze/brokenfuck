@@ -6,6 +6,7 @@ export interface IRole {
 
 export interface IMissionsWeek {
   completed: boolean,
+  id: string,
   maxStars: IProgress['stars'],
   missions: IMission[],
   stars: IProgress['stars'],

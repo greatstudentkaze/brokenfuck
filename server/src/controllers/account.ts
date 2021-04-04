@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import { Response, Request } from 'express';
 
 import AccountModel from '../models/account.js';
@@ -57,11 +58,12 @@ class AccountController {
       const missions = await MissionModel.find();
 
       const progress = Array.from({ length: 16 }, (_, i) => ({
-        week: i + 1,
-        maxStars: i === 0 ? 10 : 6,
+        id: nanoid(6),
         completed: false,
+        maxStars: i === 0 ? 10 : 6,
         missions: [] as any,
         stars: 0,
+        week: i + 1,
       }));
 
       missions.forEach(mission => {

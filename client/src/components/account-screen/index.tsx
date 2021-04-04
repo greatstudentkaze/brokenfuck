@@ -25,7 +25,7 @@ const AccountScreen = () => {
   return (
     <div>
       {login} <b>{stars} ⭐</b>
-      {missionsWeeks && missionsWeeks.map(missionsWeek => <MissionsWeek {...missionsWeek} />)}
+      {missionsWeeks && missionsWeeks.map(missionsWeek => <MissionsWeek key={missionsWeek.id} {...missionsWeek} />)}
     </div>
   );
 };

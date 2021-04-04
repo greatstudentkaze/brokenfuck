@@ -5,14 +5,14 @@ import { IAccount } from './account';
 import { IMission } from './mission';
 
 export interface IProgress extends Document {
-  account: IAccount['_id'],
+  account: IAccount['login'],
   stars: number,
   completedMissions: IMission['_id'][],
   wastedTime: number,
 }
 
 const schema = new mongoose.Schema({
-  account: { type: ObjectId, ref: 'Account' },
+  account: { type: String, ref: 'Account' },
   stars: { type: Number, default: 0 },
   completedMissions: [{ type: ObjectId, ref: 'Mission' }],
   wastedTime: { type: Number, default: 0 },

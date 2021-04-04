@@ -7,6 +7,7 @@ import controller from '../controllers/account.js';
 const router = Router();
 
 router.post('/create', authMiddleware, roleMiddleware(['USER']), controller.createAccount);
+router.get('/:login/progress', roleMiddleware(['USER']), controller.getMissionsProgress);
 router.get('/', authMiddleware, roleMiddleware(['USER']), controller.getUserAccounts);
 
 export default router;

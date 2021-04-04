@@ -96,7 +96,7 @@ class AccountController {
       const stars = progress.reduce((stars, missionWeek) => stars + missionWeek.stars, 0);
       const wastedTime = accountProgress.wastedTime;
 
-      return res.json({ missions: progress, stars, wastedTime });
+      return res.json({ missionsWeeks: progress, stars, wastedTime });
     } catch (err) {
       console.error(err);
       return res.status(500).json({ message: 'Server error' });

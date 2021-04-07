@@ -1,0 +1,80 @@
+.button {
+  display: inline-block;
+  padding: 0 20px;
+
+  font-size: 12px;
+  line-height: 36px;
+  font-weight: 700;
+  color: var(--color-white);
+  text-align: center;
+  vertical-align: top;
+  text-transform: uppercase;
+
+  background-color: var(--color-blue);
+  border: 2px solid var(--color-blue);
+  border-radius: 3em;
+
+  cursor: pointer;
+  transition: all 0.2s ease-in-out 0s;
+}
+
+.button:enabled:hover,
+.button[href]:hover {
+  color: var(--color-black);
+  background-color: var(--color-white);
+}
+
+.button:focus {
+  outline: none;
+}
+
+.button:enabled:focus-visible,
+.button[href]:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-white), 0 0 0 4px var(--color-blue);
+}
+
+.button:enabled:active,
+.button[href]:active {
+  transform: scale(0.98);
+}
+
+.button:disabled {
+  color: var(--color-disabled);
+
+  background-color: var(--color-disabled-background);
+  border-color: var(--color-disabled-border);
+
+  cursor: not-allowed;
+}
+
+.button--with-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+
+  line-height: 1;
+}
+
+.button--with-icon svg {
+  width: 18px;
+  height: 18px;
+  margin-right: 5px;
+
+  fill: var(--color-white);
+}
+
+.button--with-icon:enabled:hover svg,
+.button--with-icon[href]:hover svg {
+  fill: var(--color-black);
+}
+
+.button--green {
+  background-color: var(--color-green);
+  border-color: var(--color-green);
+}
+
+.button--green:enabled:focus-visible,
+.button--green[href]:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-white), 0 0 0 4px var(--color-green);
+}

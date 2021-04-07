@@ -6,7 +6,7 @@ import { Router } from 'react-router-dom';
 import store from './store';
 import browserHistory from './browser-history';
 
-import './index.css';
+import './components/app/css/index.css';
 import App from './components/app';
 
 ReactDOM.render(

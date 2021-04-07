@@ -1,0 +1,68 @@
+.user-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+
+  margin-left: auto;
+}
+
+.user-list__item a,
+.user-list__item button {
+  display: inline-block;
+  padding: 20px;
+
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--color-gray);
+
+  background-color: transparent;
+  border: none;
+
+  cursor: pointer;
+  transition: color 0.3s ease-in-out 0s;
+}
+
+.user-list__item a:focus,
+.user-list__item button:focus {
+  outline: none;
+}
+
+.user-list__item a:focus-visible,
+.user-list__item a:hover,
+.user-list__item button:enabled:focus-visible,
+.user-list__item button:enabled:hover {
+  color: var(--color-blue);
+}
+
+.user-list__item--active {
+  position: relative;
+
+  color: var(--color-black);
+}
+
+.user-list__item .user-list__profile {
+  display: block;
+  padding: 0;
+  border-radius: 50%;
+}
+
+.user-list__profile--active {
+  box-shadow: 0 0 0 3px var(--color-background), 0 0 0 5px var(--color-blue);
+}
+
+.user-list__profile:focus {
+  outline: none;
+}
+
+.user-list__profile:focus-visible {
+  box-shadow: 0 0 0 3px var(--color-background), 0 0 0 5px var(--color-blue);
+}
+
+.user-list__profile img {
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+
+  border-radius: 50%;
+}

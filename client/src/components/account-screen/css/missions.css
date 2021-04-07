@@ -1,0 +1,6 @@
+.missions {
+  padding: 25px 15px;
+
+  background-color: var(--color-white);
+  border-radius: 10px;
+}

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { Link } from 'react-router-dom';
-
-import { AppRoute } from '../../const';
 
 import { getAllAccounts } from '../../store/actions/accounts';
 import { selectAccounts } from '../../store/reducers/accounts';
 
+import './css/page-accounts.css';
+
 import Popup from '../popup';
+import Table from './table';
 
 const AccountsScreen = () => {
   const dispatch = useAppDispatch();
@@ -24,17 +24,26 @@ const AccountsScreen = () => {
 
   return (
     <>
-      <main>
-        <button type="button" onClick={handleAddAccountClick}>Добавить аккаунт</button>
-        <ul>
-          {
-            accounts && accounts.map(account => <li key={account._id}>
-              <Link to={`${AppRoute.ACCOUNTS}/${account.login}`}>
-                {account.login} [{account.prime && 'есть прайм'}]
-              </Link>
-            </li>)
-          }
-        </ul>
+      <main className="page-accounts container">
+        <nav className="breadcrumbs">
+          <ul className="breadcrumbs__list">
+            <li className="breadcrumbs__item">Аккаунты</li>
+          </ul>
+        </nav>
+        <div className="page-accounts__content">
+          <header className="page-accounts__header">
+            <ul className="page-accounts__tabs tab-list" role="tab-list">
+              <li className="tab-list__item tab-list__item--selected" role="tab" aria-selected="true" aria-controls="list-1" id="tab-1">
+                <button type="button">Активные</button>
+              </li>
+              <li className="tab-list__item" role="tab" aria-selected="true" aria-controls="list-2" id="tab-2">
+                <button type="button" disabled>Архив</button>
+              </li>
+            </ul>
+            <button className="page-accounts__add-button button" type="button" onClick={handleAddAccountClick}>Добавить аккаунт</button>
+          </header>
+          { accounts && <Table accounts={accounts} /> }
+        </div>
       </main>
       {isShowPopup && <Popup onClose={handleClosePopup} />}
     </>

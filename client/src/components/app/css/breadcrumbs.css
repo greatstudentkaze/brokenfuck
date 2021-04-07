@@ -1,0 +1,38 @@
+.breadcrumbs {
+  margin-bottom: 30px;
+
+  font-size: 18px;
+  line-height: 20px;
+}
+
+.breadcrumbs__list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.breadcrumbs__item {
+  position: relative;
+
+  display: inline-block;
+  padding-right: 13px;
+  padding-left: 20px;
+
+  color: var(--color-black);
+  vertical-align: top;
+}
+
+.breadcrumbs__item a[href] {
+  color: var(--color-gray);
+}
+
+.breadcrumbs__item::before {
+  content: "/";
+
+  position: absolute;
+  top: 0;
+  left: 0;
+}

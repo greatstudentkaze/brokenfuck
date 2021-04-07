@@ -1,0 +1,33 @@
+.page-accounts {
+
+}
+
+.page-accounts__content {
+  padding: 25px;
+  padding-top: 0;
+
+  background-color: var(--color-white);
+  border-radius: 10px;
+}
+
+.page-accounts__header {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 40px;
+}
+
+.page-accounts__tabs {
+  font-size: 20px;
+}
+
+.page-accounts__add-button {
+  width: 200px;
+  margin-top: 25px;
+  margin-left: auto;
+}
+
+.page-accounts__list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}

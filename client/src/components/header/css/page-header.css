@@ -1,0 +1,15 @@
+.page-header {
+  margin-bottom: 40px;
+
+  background-color: transparent;
+}
+
+.page-header__container {
+  display: flex;
+  align-items: center;
+}
+
+.page-header__logo {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}

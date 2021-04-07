@@ -1,0 +1,36 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table__head {
+
+}
+
+.table__row {
+  display: grid;
+  grid-template-columns: 320px 100px 10fr 1fr;
+  column-gap: 20px;
+  padding-top: 18px;
+  padding-bottom: 18px;
+
+  font-size: 18px;
+  line-height: 20px;
+  color: var(--color-black);
+
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table__head .table__row {
+  padding-top: 14px;
+  padding-bottom: 14px;
+
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 700;
+  color: var(--color-dark-gray);
+}
+
+.table__row td {
+  padding: 0;
+}

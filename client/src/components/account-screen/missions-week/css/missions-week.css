@@ -1,0 +1,95 @@
+.missions-week {
+  padding-right: 40px;
+  padding-left: 40px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+}
+
+.missions-week--active .missions-week__content {
+  display: block;
+}
+
+.missions-week:not(:last-of-type) {
+  margin-bottom: 25px;
+}
+
+.missions-week__header {
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+
+  font-size: 24px;
+  line-height: 1;
+}
+
+.missions-week--active .missions-week__header {
+  border-bottom: 2px solid var(--color-border);
+}
+
+.missions-week__title {
+  margin: 0;
+
+  font-size: 30px;
+  line-height: 1;
+  font-weight: 500;
+}
+
+.missions-week__stars {
+  margin: 0;
+  margin-right: 50px;
+  margin-left: auto;
+
+  font-weight: 500;
+}
+
+.missions-week__expand {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  padding: 13px;
+
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border: none;
+  border-radius: 0.3em;
+
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out 0s;
+}
+
+.missions-week__expand:focus {
+  outline: none;
+}
+
+.missions-week__expand:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-white), 0 0 0 4px var(--color-blue);
+}
+
+.missions-week--active .missions-week__expand {
+  transform: rotate(180deg);
+}
+
+.missions-week__content {
+  display: none;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.missions-week__complete {
+  width: 250px;
+  margin-left: auto;
+}
+
+.missions-week__list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+
+  margin-top: 40px;
+}
+
+.missions-week__list li:not(:last-child) {
+  margin-bottom: 20px;
+}

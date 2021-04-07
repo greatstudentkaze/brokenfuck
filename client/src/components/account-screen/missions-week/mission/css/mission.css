@@ -1,0 +1,73 @@
+.mission {
+  display: grid;
+  grid-template-areas:
+    "completion title"
+    "completion description"
+    "completion progress";
+  grid-template-columns: 50px auto;
+  column-gap: 20px;
+  row-gap: 10px;
+}
+
+.mission__complete {
+  position: relative;
+
+  grid-area: completion;
+  align-self: start;
+  display: block;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+
+  background-color: transparent;
+  background-position: center;
+  background-size: 25px;
+  background-repeat: no-repeat;
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+
+  cursor: pointer;
+  transition: border-color 0.3s ease-in-out 0s;
+}
+
+.mission__complete:focus {
+  outline: none;
+}
+
+.mission__title {
+  grid-area: title;
+  margin: 0;
+}
+
+.mission__description {
+  grid-area: description;
+  margin: 0;
+}
+
+.missions__progress {
+  grid-area: progress;
+  display: flex;
+  align-items: center;
+}
+
+.missions__progress-bar {
+  flex-basis: 95%;
+  display: block;
+  width: 100%;
+  height: 5px;
+
+  background-color: var(--color-blue);
+  border-radius: 3px;
+
+  transition: background-color 0.3s ease-in-out 0s;
+}
+
+.mission__stars {
+  display: flex;
+  margin: 0;
+  margin-left: auto;
+
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+}

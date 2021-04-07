@@ -1,0 +1,50 @@
+:root {
+  --color-white: #ffffff;
+  /*--color-blue: #3d3df0;*/
+  --color-blue: #5683ff;
+  /*--color-green: #0cad6d;*/
+  --color-green: #31b984;
+  /*--color-gray: #757581;*/
+  /*--color-lightblue: #dedefb;*/
+  /*--color-lightblue-lighter: #e6ebfa;*/
+  --color-black: #040823;
+  --color-dark-gray: #4d578c;
+  --color-gray: #505c70;
+  --color-light-gray: #bec8d8;
+  --color-background: #f1f1f4;
+  --color-border: #e4e5ea;
+  --color-disabled-background: #f3f5f8;
+  --color-disabled-border: #ecedf0;
+  --color-disabled: #89919f;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html,
+body {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--color-black);
+
+  background-color: var(--color-background);
+
+  cursor: default;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  text-decoration: none;
+}

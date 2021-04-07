@@ -1,0 +1,20 @@
+.page-account {
+
+}
+
+.page-account__title {
+  display: flex;
+  align-items: flex-start;
+  margin: 0;
+  margin-bottom: 40px;
+
+  font-size: 50px;
+  line-height: 1;
+  font-weight: 500;
+}
+
+.page-account__title span {
+  margin-left: 25px;
+
+  font-size: 25px;
+}

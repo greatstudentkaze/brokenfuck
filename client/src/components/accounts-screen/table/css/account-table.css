@@ -1,0 +1,15 @@
+.account-table {}
+
+.account-table a {
+  display: block;
+  color: var(--color-blue);
+}
+
+.account-table a:focus {
+  text-decoration: underline;
+  outline: none;
+}
+
+.account-table__prime {
+  justify-self: center;
+}

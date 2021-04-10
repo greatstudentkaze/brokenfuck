@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useAppDispatch } from '../../../hooks/redux';
-import { toggleWeekCompletion } from '../../../store/actions/progress';
+import {
+  clearCompletionOfWeekMissions,
+  completeWeekMissions,
+} from '../../../store/actions/progress';
 
 import './css/missions-week.css';
 import expandIcon from '../../../assets/icons/expand.svg';
@@ -27,14 +30,22 @@ const MissionsWeek = ({ week, missions, maxStars, stars, completed }: Props) => 
   const dispatch = useAppDispatch();
   const { login } = useParams<Params>();
   const [isOpened, setIsOpened] = useState(!completed);
+  const [isShowSaveButton, setIsShowSaveButton] = useState(false);
 
   const handleCompletionButtonClick = () => {
-    dispatch(toggleWeekCompletion({ login, week, isCompleted: !completed }));
+    dispatch(
+      completed
+        ? clearCompletionOfWeekMissions({ login, weekNumber: week })
+        : completeWeekMissions({ login, weekNumber: week })
+    );
   };
 
   const handleOpenButtonClick = () => {
     setIsOpened(prevState => !prevState);
   };
+
+  const hideSaveButton = () => setIsShowSaveButton(false);
+  const showSaveButton = () => setIsShowSaveButton(true);
 
   return (
     <section className={`missions-week ${isOpened ? 'missions-week--active' : ''}`}>
@@ -66,9 +77,10 @@ const MissionsWeek = ({ week, missions, maxStars, stars, completed }: Props) => 
           }
           <span>Отметить {completed ? 'невыполненной' : 'выполненной'}</span>
         </button>
+        {isShowSaveButton && <button type="button">Сохранить изменения</button>}
         <ul className="missions-week__list">{
           missions.map(mission => <li key={mission.id}>
-            <Mission {...mission} />
+            <Mission {...mission} hideSaveButton={hideSaveButton} showSaveButton={showSaveButton} />
           </li>)
         }</ul>
       </div>

@@ -46,28 +46,4 @@
 
 .missions__progress {
   grid-area: progress;
-  display: flex;
-  align-items: center;
-}
-
-.missions__progress-bar {
-  flex-basis: 95%;
-  display: block;
-  width: 100%;
-  height: 5px;
-
-  background-color: var(--color-blue);
-  border-radius: 3px;
-
-  transition: background-color 0.3s ease-in-out 0s;
-}
-
-.mission__stars {
-  display: flex;
-  margin: 0;
-  margin-left: auto;
-
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 500;
 }

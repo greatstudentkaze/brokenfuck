@@ -8,6 +8,7 @@ export const AppRoute = {
   PROFILE: '/profile',
   ACCOUNTS: '/accounts',
   ACCOUNT: '/accounts/:login',
+  MISSIONS: '/admin/missions',
 } as const;
 
 export const APIRoute = {
@@ -17,6 +18,8 @@ export const APIRoute = {
   REGISTRATION: 'registration/',
   CREATE_ACCOUNT: 'create/',
   PROGRESS: 'progress/',
+  MISSIONS: 'missions/',
+  USER_POINTS: 'points/',
 }
 
 export const ProgressUpdateType = {

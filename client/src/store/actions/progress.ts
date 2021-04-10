@@ -29,101 +29,35 @@ interface IToggleMissionCompletionData {
   isCompleted: boolean,
 }
 
-export const toggleWeekCompletion = createAsyncThunk<Message, IToggleWeekCompletionData, { state: RootState }>(
-  'progress/toggleWeekCompletion',
-  async ({ login, week: weekNumber, isCompleted }, thunkAPI) => {
-    const state = thunkAPI.getState().progress;
-    const dispatch = thunkAPI.dispatch;
+interface IUpdateUserPointsData {
+  login: IAccount['login'],
+  userPoints: IMission['userPoints'],
+  id: IMission['id'],
+}
 
-    const updateType = isCompleted ? ProgressUpdateType.UPGRADE : ProgressUpdateType.DEGRAGE;
-    const update = {
-      missions: [] as IMission['id'][],
-      stars: 0,
-      wastedTime: 0,
-    };
-
-    if (state.missionsWeeks) {
-      const week = state.missionsWeeks.find(missionWeek => missionWeek.week === weekNumber);
-      if (!week) {
-        throw new Error(`Неделя ${weekNumber} не найдена`);
-      }
-
-      update.missions = isCompleted
-        ? week.missions
-          .filter(mission => !mission.completed)
-          .map(mission => mission.id)
-        : week.missions
-          .map(mission => mission.id);
-
-      dispatch(updateMissionsWeek({
-        ...week,
-        completed: isCompleted,
-        missions: week.missions.map(mission => ({ ...mission, completed: isCompleted })),
-        stars: isCompleted ? week.maxStars : 0
-      }));
-
-      if (isCompleted) {
-        update.stars = week.maxStars - week.stars;
-        dispatch(addStars(update.stars));
-      } else {
-        update.stars = week.maxStars;
-        dispatch(subtractStars(update.stars));
-      }
-    }
-
-    return accountsAPI.updateAccountProgress(login, update.missions, update.stars, update.wastedTime, updateType);
+export const updateUserPoints = createAsyncThunk(
+  'progress/updateUserPoints',
+  async ({ login, id, userPoints }: IUpdateUserPointsData) => {
+    const { mission, stars, message } = await accountsAPI.updateUserPoints(login, id, userPoints);
+    console.log(message);
+    return { mission, stars };
   }
 );
 
-export const toggleMissionCompletion = createAsyncThunk<Message, IToggleMissionCompletionData, { state: RootState }>(
-  'progress/toggleMissionCompletion',
-  async ({ login, week: weekNumber, id, isCompleted }, thunkAPI) => {
-    const state = thunkAPI.getState().progress;
-    const dispatch = thunkAPI.dispatch;
+export const completeWeekMissions = createAsyncThunk(
+  'progress/completeWeekMissions',
+  async ({ login, weekNumber }: { login: IAccount['login'], weekNumber: number }) => {
+    const { missionsWeek, message } = await accountsAPI.completeWeekMissions(login, weekNumber);
+    console.log(message);
+    return missionsWeek;
+  }
+);
 
-    const updateType = isCompleted ? ProgressUpdateType.UPGRADE : ProgressUpdateType.DEGRAGE;
-    const update = {
-      missions: [] as IMission['id'][],
-      stars: 0,
-      wastedTime: 0,
-    };
-
-    if (state.missionsWeeks) {
-      const week = state.missionsWeeks.find(missionWeek => missionWeek.week === weekNumber);
-      if (!week) {
-        throw new Error(`Неделя ${weekNumber} не найдена`);
-      }
-
-      const mission = week.missions.find(mission => mission.id === id);
-      if (!mission) {
-        throw new Error(`Миссия не найдена (id: ${id})`);
-      }
-
-      update.missions = [mission.id];
-
-      if (isCompleted) {
-        update.stars = mission.stars;
-        dispatch(addStars(update.stars));
-        dispatch(updateMissionsWeek({
-          ...week,
-          stars: week.stars + update.stars,
-        }));
-      } else {
-        update.stars = mission.stars;
-        dispatch(subtractStars(update.stars));
-        dispatch(updateMissionsWeek({
-          ...week,
-          completed: false,
-          stars: week.stars - update.stars,
-        }));
-      }
-
-      dispatch(updateMission({
-        ...mission,
-        completed: isCompleted,
-      }));
-    }
-
-    return accountsAPI.updateAccountProgress(login, update.missions, update.stars, update.wastedTime, updateType);
+export const clearCompletionOfWeekMissions = createAsyncThunk(
+  'progress/clearCompletionOfWeekMissions',
+  async ({ login, weekNumber }: { login: IAccount['login'], weekNumber: number }) => {
+    const { missionsWeek, message } = await accountsAPI.clearCompletionOfWeekMissions(login, weekNumber);
+    console.log(message);
+    return missionsWeek;
   }
 );

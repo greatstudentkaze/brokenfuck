@@ -6,11 +6,6 @@ import ProgressModel from '../models/progress.js';
 import UserModel from '../models/user.js';
 import MissionModel from '../models/mission.js';
 
-const ProgressUpdateType = {
-  UPGRADE: 'UPGRADE',
-  DEGRAGE: 'DEGRADE',
-};
-
 class AccountController {
   async createAccount (req: Request, res: Response) {
     try {
@@ -77,9 +72,24 @@ class AccountController {
           throw new Error(`Неделя ${mission.week} не найдена`);
         }
 
-        const isCompleted = accountProgress.completedMissions.includes(mission._id);
+        const missionProgress = accountProgress.missions.find(missionData => missionData.id.toString() === mission.id);
+        if (!missionProgress) {
+          accountProgress.missions.push({
+            id: mission.id,
+            completed: false,
+            points: 0,
+            stars: 0,
+          });
+        }
+
+        const isCompleted = missionProgress && missionProgress.completed;
+        const userPoints = missionProgress ? missionProgress.points : 0;
+        const stars = missionProgress ? missionProgress.stars : 0;
         if (isCompleted) {
-          missionWeek.stars += mission.stars;
+          const stars = mission.points.length * mission.operationalPoints;
+          missionWeek.stars += stars;
+        } else if (userPoints > 0) {
+          missionWeek.stars += stars;
         }
 
         if (missionWeek.stars >= missionWeek.maxStars) {
@@ -91,14 +101,22 @@ class AccountController {
           completed: isCompleted,
           description: mission.description,
           id: mission._id,
-          stars: mission.stars,
+          points: mission.points,
+          userPoints,
+          stars,
+          maxPoints: Math.max(...mission.points),
+          operationalPoints: mission.operationalPoints,
           title: mission.title,
           type: mission.type,
           week: mission.week,
         };
 
+        missionData.points.sort((a, b) => a - b);
+
         missionWeek.missions.push(missionData);
       });
+
+      await accountProgress.save();
 
       const stars = progress.reduce((stars, missionWeek) => stars + missionWeek.stars, 0);
       const wastedTime = accountProgress.wastedTime;
@@ -110,37 +128,179 @@ class AccountController {
     }
   }
 
-  async updateAccountProgress (req: Request, res: Response) {
+  // todo: refactor
+  async updateUserPoints (req: Request, res: Response) {
     try {
-      const { login } = req.params;
-      const { missions, stars, wastedTime, updateType } = req.body;
-      if (updateType !== ProgressUpdateType.UPGRADE && updateType !== ProgressUpdateType.DEGRAGE) {
-        return res.status(400).json({ message: `Bad update type` });
+      const {login, id} = req.params;
+      const {userPoints} = req.body;
+
+      const progress = await ProgressModel.findOne({account: login});
+      if (!progress) {
+        return res.status(404).json({message: `Account ${login} not found`});
       }
+
+      const missionProgress = progress.missions.find(missionData => missionData.id.toString() === id);
+      if (!missionProgress) {
+        return res.status(404).json({message: `Mission ${id} progress not found`});
+      }
+
+      const mission = await MissionModel.findById(id);
+      if (!mission) {
+        return res.status(404).json({message: `Mission ${id} not found in database`});
+      }
+
+      const maxPoints = Math.max(...mission.points);
+      missionProgress.points = userPoints;
+      missionProgress.completed = userPoints >= maxPoints;
+
+      const missionData = {
+        completed: missionProgress.completed,
+        description: mission.description,
+        id,
+        points: mission.points,
+        userPoints,
+        maxPoints,
+        stars: mission.points.reduce((stars, item) => userPoints >= item ? stars + mission.operationalPoints : stars, 0),
+        operationalPoints: mission.operationalPoints,
+        title: mission.title,
+        type: mission.type,
+        week: mission.week,
+      };
+
+      missionProgress.stars = missionData.stars;
+      await progress.save();
+
+      const stars = progress.missions.reduce((stars, mission) => stars + mission.stars, 0);
+
+      res.json({ message: 'Mission points updated', mission: missionData, stars });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({message: 'Progress update error'});
+    }
+  }
+
+  // todo: refactor
+  async completeWeekMissions (req: Request, res: Response) {
+    try {
+      const { login, weekNumber } = req.params;
 
       const progress = await ProgressModel.findOne({ account: login });
       if (!progress) {
         return res.status(404).json({ message: `Account ${login} not found` });
       }
 
-      switch (updateType) {
-        case ProgressUpdateType.UPGRADE:
-          progress.completedMissions = progress.completedMissions.concat(missions);
-          progress.stars += stars;
-          progress.wastedTime += wastedTime;
-          break;
-        case ProgressUpdateType.DEGRAGE:
-          progress.completedMissions = progress.completedMissions.filter(mission => !missions.includes(mission.toString()));
-          progress.stars -= stars;
-          progress.wastedTime -= wastedTime;
-          break;
-        default:
-          break;
-      }
+      const missions = await MissionModel.find({ week: Number(weekNumber) });
+      const missionsIds = missions.map(mission => mission._id.toString());
+
+      progress.missions = progress.missions.map(mission => {
+        if (missionsIds.includes(mission.id.toString())) {
+          const { points, operationalPoints } = missions.find(item => item._id.toString() === mission.id.toString())!;
+          const maxStars = points.length * operationalPoints;
+          const maxPoints = Math.max(...points);
+
+          mission.stars = maxStars;
+          mission.points = maxPoints;
+          mission.completed = true;
+        }
+        return mission;
+      });
+
+      const missionsWeek = {
+        id: nanoid(6),
+        completed: true,
+        maxStars: Number(weekNumber) === 1 ? 10 : 6,
+        missions: [] as any,
+        stars: Number(weekNumber) === 1 ? 10 : 6,
+        week: Number(weekNumber),
+      };
+
+      missions.forEach(mission => {
+        const missionProgress = progress.missions.find(missionData => missionData.id.toString() === mission.id)!;
+
+        const missionData = {
+          completed: true,
+          description: mission.description,
+          id: mission._id,
+          points: mission.points,
+          userPoints: missionProgress.points,
+          stars: missionProgress.stars,
+          maxPoints: missionProgress.points,
+          operationalPoints: mission.operationalPoints,
+          title: mission.title,
+          type: mission.type,
+          week: mission.week,
+        };
+
+        missionData.points.sort((a, b) => a - b);
+
+        missionsWeek.missions.push(missionData);
+      });
 
       await progress.save();
 
-      res.json({ message: 'Account progress updated' });
+      res.json({ message: 'Account progress updated', missionsWeek });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'Progress update error' });
+    }
+  }
+
+  // todo: refactor
+  async clearCompletionOfWeekMissions (req: Request, res: Response) {
+    try {
+      const { login, weekNumber } = req.params;
+
+      const progress = await ProgressModel.findOne({ account: login });
+      if (!progress) {
+        return res.status(404).json({ message: `Account ${login} not found` });
+      }
+
+      const missions = await MissionModel.find({ week: Number(weekNumber) });
+      const missionsIds = missions.map(mission => mission._id.toString());
+
+      progress.missions = progress.missions.map(mission => {
+        if (missionsIds.includes(mission.id.toString())) {
+          mission.stars = 0;
+          mission.points = 0;
+          mission.completed = false;
+        }
+        return mission;
+      });
+
+      const missionsWeek = {
+        id: nanoid(6),
+        completed: false,
+        maxStars: Number(weekNumber) === 1 ? 10 : 6,
+        missions: [] as any,
+        stars: 0,
+        week: Number(weekNumber),
+      };
+
+      missions.forEach(mission => {
+        const missionProgress = progress.missions.find(missionData => missionData.id.toString() === mission.id)!;
+
+        const missionData = {
+          completed: false,
+          description: mission.description,
+          id: mission._id,
+          points: mission.points,
+          userPoints: missionProgress.points,
+          stars: missionProgress.stars,
+          maxPoints: Math.max(...mission.points),
+          operationalPoints: mission.operationalPoints,
+          title: mission.title,
+          type: mission.type,
+          week: mission.week,
+        };
+
+        missionData.points.sort((a, b) => a - b);
+
+        missionsWeek.missions.push(missionData);
+      });
+
+      await progress.save();
+
+      res.json({ message: 'Account progress updated', missionsWeek });
     } catch (err) {
       console.error(err);
       return res.status(500).json({ message: 'Progress update error' });

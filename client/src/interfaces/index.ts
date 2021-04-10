@@ -15,10 +15,20 @@ export interface IMissionsWeek {
 
 export interface IMission {
   completed: boolean,
-  description: string,
+  description: {
+    en: string,
+    ru: string,
+  },
   id: string,
+  maxPoints: number,
+  userPoints: number,
+  points: number[],
   stars: number,
-  title: string,
+  operationalPoints: number,
+  title: {
+    en: string,
+    ru: string,
+  },
   type: MissionType,
   week: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16,
 }

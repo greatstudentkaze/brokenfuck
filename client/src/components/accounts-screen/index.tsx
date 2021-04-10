@@ -32,7 +32,7 @@ const AccountsScreen = () => {
         </nav>
         <div className="page-accounts__content">
           <header className="page-accounts__header">
-            <ul className="page-accounts__tabs tab-list" role="tab-list">
+            <ul className="page-accounts__tabs tab-list" role="tablist">
               <li className="tab-list__item tab-list__item--selected" role="tab" aria-selected="true" aria-controls="list-1" id="tab-1">
                 <button type="button">Активные</button>
               </li>

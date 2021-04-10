@@ -1,0 +1,38 @@
+.language {
+  margin: 0;
+  padding: 0;
+  border: none;
+
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 25px;
+}
+
+.language__title {
+  margin-bottom: 10px;
+  margin-left: auto;
+}
+
+.language__label {
+  display: inline-flex;
+  padding: 8px 14px;
+
+  border: 2px solid var(--color-blue);
+  border-right: none;
+}
+
+.language__radio:checked + .language__label {
+  color: var(--color-white);
+  background-color: var(--color-blue);
+}
+
+.language__label:first-of-type {
+  border-top-left-radius: 2em;
+  border-bottom-left-radius: 2em;
+}
+
+.language__label:last-of-type {
+  border-right: 2px solid var(--color-blue);
+  border-top-right-radius: 2em;
+  border-bottom-right-radius: 2em;
+}

@@ -11,6 +11,7 @@ import './css/page-account.css';
 import './css/missions.css';
 
 import MissionsWeek from './missions-week';
+import Language from './language';
 
 type Params = {
   login: string,
@@ -42,6 +43,7 @@ const AccountScreen = () => {
       </nav>
       <h1 className="page-account__title">{login} <span>{stars} ⭐</span></h1>
       <div className="missions">
+        <Language />
         {missionsWeeks && missionsWeeks.map(missionsWeek => <MissionsWeek key={missionsWeek.id} {...missionsWeek} />)}
       </div>
     </main>

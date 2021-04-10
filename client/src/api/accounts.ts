@@ -3,13 +3,15 @@ import axios, { AxiosInstance } from 'axios';
 import { API_URL, APIRoute, ProgressUpdateType } from '../const';
 
 import { Accounts, Message } from '../types';
-import { IAccount, IMission, IProgress } from '../interfaces';
+import { IAccount, IMission, IMissionsWeek, IProgress } from '../interfaces';
 
 export namespace ResponseType {
   export type GetAllAccounts = Accounts;
   export type CreateAccount = IAccount;
   export type GetMissionsProgress = IProgress;
   export type UpdateAccountProgress = Message;
+  export type UpdateUserPoints = { message: Message, mission: IMission, stars: IProgress['stars'] };
+  export type UpdateMissionsWeek = { message: Message, missionsWeek: IMissionsWeek };
 }
 
 type UpdateType = typeof ProgressUpdateType[keyof typeof ProgressUpdateType];
@@ -62,9 +64,27 @@ class AccountsAPI {
     }
   }
 
-  async updateAccountProgress (login: IAccount['login'], missions: IMission['id'][], stars: IProgress['stars'], wastedTime: IProgress['wastedTime'], updateType: UpdateType): Promise<Message> {
+  async updateUserPoints (login: IAccount['login'], missionId: IMission['id'], userPoints: IMission['userPoints']): Promise<ResponseType.UpdateUserPoints> {
     try {
-      const response = await this.instance.post<ResponseType.UpdateAccountProgress>(`${login}/${APIRoute.PROGRESS}`, { missions, stars, wastedTime, updateType });
+      const response = await this.instance.post<ResponseType.UpdateUserPoints>(`${login}/${APIRoute.PROGRESS}${APIRoute.MISSIONS}${missionId}/${APIRoute.USER_POINTS}`, { userPoints });
+      return response.data;
+    } catch (err) {
+      throw new Error(err.response.data.message);
+    }
+  }
+
+  async completeWeekMissions (login: IAccount['login'], weekNumber: number): Promise<ResponseType.UpdateMissionsWeek> {
+    try {
+      const response = await this.instance.post<ResponseType.UpdateMissionsWeek>(`${login}/${APIRoute.PROGRESS}weeks/${weekNumber}/complete`);
+      return response.data;
+    } catch (err) {
+      throw new Error(err.response.data.message);
+    }
+  }
+
+  async clearCompletionOfWeekMissions (login: IAccount['login'], weekNumber: number): Promise<ResponseType.UpdateMissionsWeek> {
+    try {
+      const response = await this.instance.post<ResponseType.UpdateMissionsWeek>(`${login}/${APIRoute.PROGRESS}weeks/${weekNumber}/clear`);
       return response.data;
     } catch (err) {
       throw new Error(err.response.data.message);

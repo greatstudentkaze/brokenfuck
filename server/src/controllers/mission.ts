@@ -10,7 +10,7 @@ class MissionController {
       const mission = new MissionModel({ week, stars, type, title, description });
       await mission.save();
 
-      return res.status(201).json(mission);
+      return res.status(201).json({ mission, message: 'Mission created' });
     } catch (err) {
       console.error(err);
       return res.status(500).json({ message: 'Upload error' });

@@ -5,18 +5,26 @@ type MissionType = 'retakes' | 'guardian' | 'casual' | 'competitive' | 'premier'
 
 export interface IMission extends Document {
   week: number,
-  stars: number,
+  points: number[],
+  operationalPoints: number,
   type: MissionType,
-  title: string,
-  description: string,
+  title: {
+    en: string,
+    ru: string,
+  },
+  description: {
+    en: string,
+    ru: string,
+  },
 }
 
 const schema = new mongoose.Schema({
   week: { type: Number, required: true },
-  stars: { type: Number, default: 1 },
+  points: [{ type: Number, default: 1 }],
+  operationalPoints: { type: Number, default: 1 },
   type: { type: String, required: true },
-  title: { type: String, required: true },
-  description: { type: String, required: true },
+  title: { type: { en: String, ru: String }, required: true },
+  description: { type: { en: String, ru: String }, required: true },
 });
 
 export default mongoose.model<IMission>('Mission', schema);

@@ -111,8 +111,6 @@ class AccountController {
           week: mission.week,
         };
 
-        missionData.points.sort((a, b) => a - b);
-
         missionWeek.missions.push(missionData);
       });
 
@@ -170,7 +168,21 @@ class AccountController {
       missionProgress.stars = missionData.stars;
       await progress.save();
 
-      const stars = progress.missions.reduce((stars, mission) => stars + mission.stars, 0);
+      const weeksStars = Array.from({ length: 16 }, _ => 0) as number[];
+      const missions = await MissionModel.find();
+      missions.forEach(mission => {
+        const index = mission.week - 1;
+        const { stars } = progress.missions.find(missionData => missionData.id.toString() === mission.id)!;
+
+        weeksStars[index] += stars;
+        if (mission.week === 1 && weeksStars[index] >= 10) {
+          weeksStars[index] = 10;
+        } else if (mission.week !== 1 && weeksStars[index] >= 6) {
+          weeksStars[index] = 6;
+        }
+      });
+
+      const stars = weeksStars.reduce((stars, weekStars) => stars + weekStars, 0);
 
       res.json({ message: 'Mission points updated', mission: missionData, stars });
     } catch (err) {
@@ -231,8 +243,6 @@ class AccountController {
           week: mission.week,
         };
 
-        missionData.points.sort((a, b) => a - b);
-
         missionsWeek.missions.push(missionData);
       });
 
@@ -292,8 +302,6 @@ class AccountController {
           type: mission.type,
           week: mission.week,
         };
-
-        missionData.points.sort((a, b) => a - b);
 
         missionsWeek.missions.push(missionData);
       });

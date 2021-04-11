@@ -95,19 +95,17 @@ export const progressSlice = createSlice({
 
       const index = week.missions.findIndex(item => item.id === mission.id);
       if (index !== -1) {
-        week.stars -= week.missions[index].stars;
-        week.stars += mission.stars;
-
-        week.completed = week.stars >= week.maxStars;
-        if (week.completed) {
-          week.stars = week.maxStars;
-        }
-
         week.missions = [
           ...week.missions.slice(0, index),
           mission,
           ...week.missions.slice(index + 1)
         ];
+
+        week.stars = week.missions.reduce((stars, mission) => stars + mission.stars, 0);
+        week.completed = week.stars >= week.maxStars;
+        if (week.completed) {
+          week.stars = week.maxStars;
+        }
 
         state.stars = stars;
       }

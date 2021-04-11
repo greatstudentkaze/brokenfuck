@@ -23,7 +23,7 @@ type Params = {
 
 // const UPDATE_TIMEOUT = 500;
 
-const Mission = ({ completed, description, points, maxPoints, userPoints, title, type, week, id }: Props) => {
+const Mission = ({ completed, description, points, maxPoints, userPoints, title, operationalPoints, type, week, id }: Props) => {
   const dispatch = useAppDispatch();
   const { login } = useParams<Params>();
   const language = useAppSelector(selectLanguage);
@@ -65,7 +65,7 @@ const Mission = ({ completed, description, points, maxPoints, userPoints, title,
       </button>
       <h3 className="mission__title">{title[language]}</h3>
       <p className="mission__description">{description[language]}</p>
-      <Progress points={points} userPoints={userPoints} maxPoints={maxPoints} setUserPoints={setTempUserPoints} />
+      <Progress points={points} operationalPoints={operationalPoints} userPoints={userPoints} maxPoints={maxPoints} setUserPoints={setTempUserPoints} />
     </article>
   );
 };

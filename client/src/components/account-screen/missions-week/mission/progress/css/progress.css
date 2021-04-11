@@ -36,11 +36,24 @@
   background-repeat: no-repeat;
 
   cursor: pointer;
-  transition: background-size 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
+  transition-property: background-position, background-size;
 }
 
 .progress__star:hover {
   background-size: 25px;
+}
+
+.progress__star--double {
+  color: var(--color-white);
+
+  background-size: 15px;
+  background-position: top 5px left 2px, bottom 20px right 2px;
+}
+
+.progress__star--double:hover {
+  background-size: 15px;
+  background-position: bottom 20px left 2px, top 5px right 2px;
 }
 
 .progress__range {

@@ -3,14 +3,17 @@ import React, { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import './css/progress.css';
 import star from '../../../../../assets/star.svg';
 
+import { IMission } from '../../../../../interfaces';
+
 type Props = {
-  points: number[],
-  userPoints: number,
-  maxPoints: number,
+  points: IMission['points'],
+  userPoints: IMission['userPoints'],
+  maxPoints: IMission['maxPoints'],
+  operationalPoints: IMission['operationalPoints'],
   setUserPoints: Dispatch<SetStateAction<number>>,
 };
 
-const Progress = ({ points, userPoints, maxPoints, setUserPoints }: Props) => {
+const Progress = ({ points, userPoints, maxPoints, operationalPoints, setUserPoints }: Props) => {
   const handleRangeChange = (evt: ChangeEvent<HTMLInputElement>) => setUserPoints(Number(evt.target.value));
 
   const additional = userPoints / maxPoints > 0.5 ? `${-7.5 * (userPoints / maxPoints)}px` : `${5 * (1 - userPoints / maxPoints)}px`;
@@ -25,10 +28,10 @@ const Progress = ({ points, userPoints, maxPoints, setUserPoints }: Props) => {
         points.map((point) =>
           <span
             key={point}
-            className="progress__star"
+            className={operationalPoints === 2 ? 'progress__star progress__star--double' : 'progress__star'}
             style={{
               left: `calc(${point / maxPoints * 100}% - ${(7 + 8 * point / maxPoints)}px)`,
-              backgroundImage: `url("${star}")`,
+              backgroundImage: operationalPoints === 2 ? `url("${star}"), url("${star}")` : `url("${star}")`,
             }}
             onClick={() => setUserPoints(point)}
           >{point}</span>)
